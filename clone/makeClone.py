@@ -19,6 +19,8 @@ parser.add_argument("-x","--exclude",dest='exclude',help='list of comma seperate
 parser.add_argument("-l","--makelink",dest='makeLink',help='make links - comma seperated list with colon as a delimiter for linkTarget:linkName')
 parser.add_argument("-m","--makedir",dest='makeDir',help='comma seperated list of directories:owner%perm to make with colon and % as a delimiter for dirName:owner%perm')
 parser.add_argument("-e","--emptytree",dest='emptyTree',help='comma seperated list of directories to empty all files leaving the tree structure intact')
+parser.add_argument("-n","--srchost",dest="srchost",help='src host')
+parser.add_argument("-p","--protocol",dest="prot",help='use rsh or ssh as the backend transport protocol')
 args = parser.parse_args()
 
 root_dir = os.path.abspath(str(args.rootDir))
@@ -59,8 +61,18 @@ if(args.makeLink):
   for x in pass1:
     link_dict[x.split(":")[0]] = os.path.join(target,x.split(":")[1].lstrip("/"))
   
+  
+if(args.srchost):
+  root_dir_h = args.srchost.rstrip().lstrip() +":"+ root_dir
+else:
+  root_dir_h = root_dir
+  
+if(args.prot):
+  p = "--rsh="+ args.prot.rstrip().lstrip()
+else:
+  p = "--rsh=rsh"
 
-os.system(rsync +" -avHAX "+ root_dir +" "+ target +" "+ xclude_option)
+os.system(rsync +" -avHAX "+ root_dir_h +" "+ target +" "+ xclude_option +" "+ p)
 
 
 if(args.makeDir):
