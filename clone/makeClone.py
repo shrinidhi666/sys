@@ -92,6 +92,7 @@ if(link_dict):
 if(args.emptyTree):
   for x in args.emptyTree.split(","):
     mptyDir = os.path.join(target,x.rstrip("/").lstrip("/"))
+    print("to delete : "+ str(mptyDir))
     tree1 = subprocess.check_output(["tree","-aif","--noreport",mptyDir,"|","gawk","-F","'->'","'{print $1}'"]).split("\n")
     for y in tree1:
       if(os.path.isfile(y)):
