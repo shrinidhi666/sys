@@ -1,0 +1,17 @@
+#!/bin/sh
+for I in $Idirs
+do
+	xdirs=$(eval "echo \$Xdirs_$I")
+	cmd="rsync -aXHAv /$I/ $1:/$I/ --delete"
+	
+	if [ "$xdirs" ]; then
+		xclud=""
+		for X in $xdirs
+		do
+			xclud="${xclud} --exclude=${X}/"
+		done
+		cmd="$cmd $xclud"
+	fi
+	echo $cmd
+done
+
