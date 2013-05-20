@@ -1,0 +1,6 @@
+#!/bin/sh
+for ((  i = 0 ;  i <= 200;  i++  ))
+do
+	rename -v `printf "_%04d_" ${i}` _ $@/* 
+#	echo `printf "_%04d_" ${i}`
+done
