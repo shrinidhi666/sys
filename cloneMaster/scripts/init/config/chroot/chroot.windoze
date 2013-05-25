@@ -1,0 +1,7 @@
+#cp -v /etc/fstab.windoze /etc/fstab
+env-update;source /etc/profile
+grep -iv rootfs /proc/mounts > /etc/mtab
+dd if=/dev/sda of=~/first_63_sectors bs=512 count=63
+dd if=/dev/zero of=/dev/sda bs=512 count=62 seek=1
+grub2-install /dev/sda
+grub2-mkconfig -o /boot/grub2/grub.cfg
