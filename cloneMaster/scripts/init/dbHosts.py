@@ -112,7 +112,17 @@ def test():
   diskin = dbR.getDiskInfo()
   for disk in diskin:
     partInfo = disk['partInfo'].split(":")
-    print(partInfo)
+    pInfo = {}
+    pInfo['number'] = partInfo[0]
+    pInfo['partType'] = partInfo[1]
+    pInfo['size'] = partInfo[2]
+    pInfo['bootFlag'] = partInfo[3]
+    pInfo['fsType'] = partInfo[4]
+    pInfo['label'] = partInfo[5]
+    pInfo['formatFlag'] = partInfo[6]
+    pInfo['mountDir'] = partInfo[7]
+    
+    print(pInfo)
   
     #time.sleep(1)
   
