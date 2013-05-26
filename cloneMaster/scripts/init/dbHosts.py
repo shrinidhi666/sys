@@ -135,7 +135,7 @@ def test():
     print("device : " + d)
     for di in dInfo[d]:
       for dikey in di.keys():
-        print("\t"+ str(dikey) +"\t: "+ str(di[dikey]))
+        print("\t"+ str(dikey).ljust(28," ") +"\t: "+ str(di[dikey]))
   
 if __name__ == "__main__":
   test()
