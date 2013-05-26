@@ -131,11 +131,11 @@ def test():
       dInfo[disk['device']].append(pInfo)
     
   
-    for d in dInfo.keys():
-      print("device : " + d)
-      for di in dInfo[d]:
-        for dikey in di.keys():
-          print("\t"+ str(dikey) +"\t: "+ str(di[dikey]) +"\n")
+  for d in dInfo.keys():
+    print("device : " + d)
+    for di in dInfo[d]:
+      for dikey in di.keys():
+        print("\t"+ str(dikey) +"\t: "+ str(di[dikey]))
   
 if __name__ == "__main__":
   test()
