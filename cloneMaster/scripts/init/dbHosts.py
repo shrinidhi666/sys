@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import MySQLdb
 import MySQLdb.cursors
 import time
@@ -55,7 +56,7 @@ class dbHosts:
         con = self._connDb(hostname=dbHostname,port=int(dbPort),dbname=dbDatabase)
         return(con)
       except:
-      time.sleep(1)
+        time.sleep(1)
       
        
   def execute(self,query,dictionary=False):
