@@ -114,14 +114,14 @@ def test():
   for disk in diskin:
     partInfo = disk['partInfo'].split(":")
     pInfo = {}
-    pInfo['00-number'] = partInfo[0]
-    pInfo['01-partType'] = partInfo[1]
-    pInfo['02-size'] = partInfo[2]
-    pInfo['03-bootFlag'] = partInfo[3]
-    pInfo['04-fsType'] = partInfo[4]
-    pInfo['05-label'] = partInfo[5]
-    pInfo['06-formatFlag'] = partInfo[6]
-    pInfo['07-mountDir'] = partInfo[7]
+    pInfo['01-number'] = partInfo[0]
+    pInfo['02-partType'] = partInfo[1]
+    pInfo['03-size'] = partInfo[2]
+    pInfo['04-bootFlag'] = partInfo[3]
+    pInfo['05-fsType'] = partInfo[4]
+    pInfo['06-label'] = partInfo[5]
+    pInfo['07-formatFlag'] = partInfo[6]
+    pInfo['08-mountDir'] = partInfo[7]
     
     print(pInfo)
     try:
