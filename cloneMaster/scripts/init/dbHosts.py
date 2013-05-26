@@ -134,7 +134,7 @@ def test():
   for d in dInfo.keys():
     print("device : " + d)
     for di in dInfo[d]:
-      for dikey in di.keys().sort():
+      for dikey in (di.keys()).sort():
         print("\t"+ str(dikey) +"\t: "+ str(di[dikey]))
       print("-----")
     print("%%%%%%%%%%")
