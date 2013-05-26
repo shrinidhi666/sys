@@ -3,8 +3,6 @@ import MySQLdb
 import MySQLdb.cursors
 import time
 import sys
-import constants
-import logging
 import socket
 import os
 import tempfile
