@@ -105,7 +105,7 @@ class dbHosts:
       print("no clone info to get! : "+ str(sys.exc_info()))
       return(0)
     if(rows):
-      return(rows)
+      return(rows[0])
     else:
       return(0)
   # returns an array of all the frames in the given batchId   
@@ -113,8 +113,12 @@ def test():
   dbR = dbHosts()
   diskin = dbR.getCloneInfo()
   if(diskin):
-    for disk in diskin:
-      print(disk)
+    print(diskin)
+  else:
+    print("fuck off")
+  #if(diskin):
+    #for disk in diskin:
+      #print(disk)
     
     
     

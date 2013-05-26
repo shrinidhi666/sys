@@ -1,8 +1,1 @@
-#!/usr/bin/python
-import os
-import sys
-import MySQLdb
-import MySQLdb.cursors
-
-print("testing python mysql")
-os.system("echo \"testing shit\" > /tmp/tinka")
+init.real
