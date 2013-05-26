@@ -110,6 +110,7 @@ class dbHosts:
 def test():
   dbR = dbHosts()
   diskin = dbR.getDiskInfo()
+  dInfo = {}
   for disk in diskin:
     partInfo = disk['partInfo'].split(":")
     pInfo = {}
@@ -123,9 +124,18 @@ def test():
     pInfo['mountDir'] = partInfo[7]
     
     print(pInfo)
+    try:
+      dInfo[disk['device']].append(pInfo)
+    except:
+      dInfo[disk['device']] = []
+      dInfo[disk['device']].append(pInfo)
+    
   
-    #time.sleep(1)
-  
+    for d in dInfo.keys():
+      print("device : " + d)
+      for di in dInfo[d]:
+        for dikey in di.keys():
+          print("\t"+ str(dikey) +"\t: "+ str(di[dikey]) +"\n")
   
 if __name__ == "__main__":
   test()
