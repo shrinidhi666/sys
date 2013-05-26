@@ -106,12 +106,15 @@ class dbHosts:
       return(0)
     if(rows):
       return(rows)
+    else:
+      return(0)
   # returns an array of all the frames in the given batchId   
 def test():
   dbR = dbHosts()
   diskin = dbR.getPartInfo()
-  for disk in diskin:
-    print(disk)
+  if(diskin):
+    for disk in diskin:
+      print(disk)
     
     
     
