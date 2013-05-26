@@ -98,9 +98,9 @@ class dbHosts:
             pass
           raise
         
-  def getDiskInfo(self):
+  def getPartInfo(self):
     try:
-      rows = self.execute("select * from diskInfo where ip=\'"+ str(self.__myip) +"\'", dictionary=True)
+      rows = self.execute("select * from partInfo where ip=\'"+ str(self.__myip) +"\'", dictionary=True)
     except:
       print("no disk info to get! : "+ str(sys.exc_info()))
       return(0)
@@ -109,33 +109,27 @@ class dbHosts:
   # returns an array of all the frames in the given batchId   
 def test():
   dbR = dbHosts()
-  diskin = dbR.getDiskInfo()
-  dInfo = {}
+  diskin = dbR.getPartInfo()
   for disk in diskin:
-    partInfo = disk['partInfo'].split(":")
-    pInfo = {}
-    pInfo['number'] = partInfo[0]
-    pInfo['partType'] = partInfo[1]
-    pInfo['size'] = partInfo[2]
-    pInfo['bootFlag'] = partInfo[3]
-    pInfo['fsType'] = partInfo[4]
-    pInfo['label'] = partInfo[5]
-    pInfo['formatFlag'] = partInfo[6]
-    pInfo['mountDir'] = partInfo[7]
+    print(disk)
     
-    print(pInfo)
-    try:
-      dInfo[disk['device']].append(pInfo)
-    except:
-      dInfo[disk['device']] = []
-      dInfo[disk['device']].append(pInfo)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
   
-  for d in dInfo.keys():
-    print("device : " + d)
-    for di in dInfo[d]:
-      for dikey in di.keys():
-        print("\t"+ str(dikey).ljust(28," ") +"\t: "+ str(di[dikey]))
   
 if __name__ == "__main__":
   test()
