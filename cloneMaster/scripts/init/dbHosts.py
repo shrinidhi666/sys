@@ -100,7 +100,7 @@ class dbHosts:
         
   def getDiskInfo(self):
     try:
-      rows = self.execute("select * from diskInfo where ip=\'"+ str(self.__myip), dictionary=True)
+      rows = self.execute("select * from diskInfo where ip=\'"+ str(self.__myip) +"\'", dictionary=True)
     except:
       print("no disk info to get! : "+ str(sys.exc_info()))
       return(0)
