@@ -98,9 +98,9 @@ class dbHosts:
             pass
           raise
         
-  def getPartInfo(self):
+  def getCloneInfo(self):
     try:
-      rows = self.execute("select * from partInfo where ip=\'"+ str(self.__myip) +"\' order by partNumber", dictionary=True)
+      rows = self.execute("select * from clonedb where ip=\'"+ str(self.__myip) +"\' order by partNumber", dictionary=True)
     except:
       print("no disk info to get! : "+ str(sys.exc_info()))
       return(0)
