@@ -4,6 +4,9 @@ import os
 import dbHosts
 devNode = "sda"
 
+db_conn = dbHosts.dbHosts()
+db_conn.
+
 def getMacAddress():
     if sys.platform == 'win32':
         for line in os.popen("ipconfig /all"): 
