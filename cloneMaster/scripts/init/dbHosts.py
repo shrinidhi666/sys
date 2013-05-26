@@ -110,7 +110,9 @@ class dbHosts:
 def test():
   dbR = dbHosts()
   diskin = dbR.getDiskInfo()
-  print(diskin)
+  for disk in diskin:
+    partInfo = disk['partInfo'].split(":")
+    print(partInfo)
   
     #time.sleep(1)
   
