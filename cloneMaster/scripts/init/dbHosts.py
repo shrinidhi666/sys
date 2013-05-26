@@ -100,9 +100,9 @@ class dbHosts:
         
   def getCloneInfo(self):
     try:
-      rows = self.execute("select * from clonedb where ip=\'"+ str(self.__myip) +"\' order by partNumber", dictionary=True)
+      rows = self.execute("select * from clonedb where ip=\'"+ str(self.__myip) +"\' order by ip", dictionary=True)
     except:
-      print("no disk info to get! : "+ str(sys.exc_info()))
+      print("no clone info to get! : "+ str(sys.exc_info()))
       return(0)
     if(rows):
       return(rows)
@@ -111,7 +111,7 @@ class dbHosts:
   # returns an array of all the frames in the given batchId   
 def test():
   dbR = dbHosts()
-  diskin = dbR.getPartInfo()
+  diskin = dbR.getCloneInfo()
   if(diskin):
     for disk in diskin:
       print(disk)
