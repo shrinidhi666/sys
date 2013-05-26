@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 import os
-
+import dbHosts
 devNode = "sda"
 
 def getMacAddress():
