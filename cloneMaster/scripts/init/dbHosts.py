@@ -114,14 +114,14 @@ def test():
   for disk in diskin:
     partInfo = disk['partInfo'].split(":")
     pInfo = {}
-    pInfo['number'] = partInfo[0]
-    pInfo['partType'] = partInfo[1]
-    pInfo['size'] = partInfo[2]
-    pInfo['bootFlag'] = partInfo[3]
-    pInfo['fsType'] = partInfo[4]
-    pInfo['label'] = partInfo[5]
-    pInfo['formatFlag'] = partInfo[6]
-    pInfo['mountDir'] = partInfo[7]
+    pInfo['00-number'] = partInfo[0]
+    pInfo['01-partType'] = partInfo[1]
+    pInfo['02-size'] = partInfo[2]
+    pInfo['03-bootFlag'] = partInfo[3]
+    pInfo['04-fsType'] = partInfo[4]
+    pInfo['05-label'] = partInfo[5]
+    pInfo['06-formatFlag'] = partInfo[6]
+    pInfo['07-mountDir'] = partInfo[7]
     
     print(pInfo)
     try:
@@ -134,8 +134,10 @@ def test():
   for d in dInfo.keys():
     print("device : " + d)
     for di in dInfo[d]:
-      for dikey in di.keys():
+      for dikey in di.keys().sort():
         print("\t"+ str(dikey) +"\t: "+ str(di[dikey]))
+      print("-----")
+    print("%%%%%%%%%%")
   
 if __name__ == "__main__":
   test()
