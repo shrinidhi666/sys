@@ -21,24 +21,17 @@ if(cInfo):
   clone = cInfo['clone']
   grubInstall = cInfo['grubInstall']
 else:
+  print("haaaaaaaa.. nothing to do .. !!!!")
   sys.exit(0)
   
 cType = cConstants.cloneType[clone] 
 
 def getMacAddress():
-    if sys.platform == 'win32':
-        for line in os.popen("ipconfig /all"): 
-            if line.lstrip().startswith('Physical Address'): 
-                mac = line.split(':')[1].strip().replace('-',':') 
-		return mac
-                break 
-    else: 
-        for line in os.popen("/sbin/ifconfig"): 
-            if line.find('Ether') > -1: 
-                mac = line.split()[4] 
-		return mac
-                break
-
+  for line in os.popen("ifconfig"): 
+    if line.find('Ether') > -1: 
+      mac = line.split()[4] 
+      return mac
+      
 
 
 maccy = getMacAddress()
@@ -59,32 +52,32 @@ os.system("mount blues0:/srv/tftp/tftpboot/pxelinux.cfg /mnt/pxeboot/")
 os.system("umount -fr "+ devNode +"/*")
 
 if(not os.path.exists(myPxebootFlag)):
-	os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.del."+ cType)
-	os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".mkextended")
-	os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".part")
-	os.system("touch "+ myPxebootFlag)
-	os.system("cp -v "+ myPxebootDefault +" "+ myPxebootFile)
-	os.system("sed -i 's/default harddisk/default nfslove_new/g' "+ myPxebootFile)
-	os.system("cd /;umount -fr /mnt/gentoo;umount -fr /mnt/pxeboot/")
-	os.system("reboot -f")
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.del."+ cType)
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".mkextended")
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".part")
+  os.system("touch "+ myPxebootFlag)
+  os.system("cp -v "+ myPxebootDefault +" "+ myPxebootFile)
+  os.system("sed -i 's/default harddisk/default nfslove_new/g' "+ myPxebootFile)
+  os.system("cd /;umount -fr /mnt/gentoo;umount -fr /mnt/pxeboot/")
+  os.system("reboot -f")
 else:
-	os.system("/mnt/cloneMaster/init.mkfs."+ cType +" "+ devNode)
-	os.system("/mnt/cloneMaster/init.mount."+ cType +" "+ devNode)
-	os.system("rsync -avHAX /mnt/gentoo/ /mnt/realroot/ --delete --exclude=root/livecd  --compress --rsh=rsh")
-	os.system("mkdir -pv /mnt/realroot/crap/cache/fscache/")
+  os.system("/mnt/cloneMaster/init.mkfs."+ cType +" "+ devNode)
+  os.system("/mnt/cloneMaster/init.mount."+ cType +" "+ devNode)
+  os.system("rsync -avHAX /mnt/gentoo/ /mnt/realroot/ --delete --exclude=root/livecd  --compress --rsh=rsh")
+  os.system("mkdir -pv /mnt/realroot/crap/cache/fscache/")
 #	os.system("mount /dev/"+ devNode +"4 /mnt/realroot/BACKUP")
-	os.system("mkdir -m 0777 -p /mnt/realroot/crap/cache/fscache/")
-	os.system("cd /")
-	os.system("rm -f "+ myPxebootFlag)
+  os.system("mkdir -m 0777 -p /mnt/realroot/crap/cache/fscache/")
+  os.system("cd /")
+  os.system("rm -f "+ myPxebootFlag)
   os.system("rm -f "+ myPxebootFile)
 #	os.system("rm -f /mnt/realroot/etc/mtab")
 #	os.system("umount /mnt/realroot/boot")
-	os.system("mount -t proc none /mnt/realroot/proc")
-	os.system("mount -o bind /dev /mnt/realroot/dev")
-	os.system("mount -o bind /sys /mnt/realroot/sys")
+  os.system("mount -t proc none /mnt/realroot/proc")
+  os.system("mount -o bind /dev /mnt/realroot/dev")
+  os.system("mount -o bind /sys /mnt/realroot/sys")
 #	os.system("mount /dev"+ devNode +"5 /mnt/realroot/boot")
   os.system("echo \""+ grubInstall +"\" > /mnt/realroot/tmp/grub.disk")
-	os.system("chroot /mnt/realroot/ < /mnt/cloneMaster/config/chroot/chroot."+ cType)
-	os.system("cd /; cat /proc/mounts | grep -i realroot | gawk '{print $2}' | sort -ru | xargs umount -f ")
-	os.system("reboot -f")
+  os.system("chroot /mnt/realroot/ < /mnt/cloneMaster/config/chroot/chroot."+ cType)
+  os.system("cd /; cat /proc/mounts | grep -i realroot | gawk '{print $2}' | sort -ru | xargs umount -f ")
+  os.system("reboot -f")
 
