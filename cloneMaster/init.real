@@ -4,6 +4,19 @@ import os
 import dbHosts
 import cConstants
 
+
+def fortune():
+  print("\n\n\n")
+  a = os.popen("fortune science","r")
+  for x in a:
+    print(x)
+  print("\n\n\n")
+  a.close()
+  
+
+
+
+
 db_conn = dbHosts.dbHosts()
 cInfo = db_conn.getCloneInfo()
 
@@ -12,19 +25,25 @@ cServer = "cloneMaster"
 cDir = "/crap/gentooOnesis"
 clone = 2 
 grubInstall = "/dev/sda"
-
+bootPart = "/dev/sda1"
+fortune()
 
 if(cInfo):
+  for x in cInfo.keys():
+    print(x +" : "+ cInfo[x])
   devNode = cInfo['cloneDisk']
   cServer = cInfo['cloneServer']
   cDir = cInfo['cloneDir']
   clone = cInfo['clone']
   grubInstall = cInfo['grubInstall']
 else:
-  print("haaaaaaaa.. nothing to do .. !!!!")
   sys.exit(0)
   
+if(not clone):
+  sys.exit(0)
 cType = cConstants.cloneType[clone] 
+
+
 
 def getMacAddress():
   for line in os.popen("ifconfig"): 
@@ -42,31 +61,38 @@ myPxebootFlag = "/mnt/pxeboot/bootT-"+ maccy.replace(":","-") #If this file is p
 
 
 
-os.system("echo \"Cloning linux on a WINDOZE based system!!!! :(\"")
+print("\nCloning linux on a WINDOZE based system!!!! :(\n")
 os.system("env-update")
-os.system("source /etc/profile")
-os.system("mkdir -p /mnt/gentoo/")
-os.system("mkdir -p /mnt/pxeboot/")
-os.system("mount cloneMaster:/crap/gentooOnesis /mnt/gentoo")
-os.system("mount blues0:/srv/tftp/tftpboot/pxelinux.cfg /mnt/pxeboot/")
-os.system("umount -fr "+ devNode +"/*")
+os.system("source /etc/profile >& /dev/null")
+os.system("mkdir -p /mnt/gentoo/ >& /dev/null")
+os.system("mkdir -p /mnt/pxeboot/ >& /dev/null")
+os.system("mount cloneMaster:/crap/gentooOnesis /mnt/gentoo >& /dev/null")
+os.system("mount blues0:/srv/tftp/tftpboot/pxelinux.cfg /mnt/pxeboot/ >& /dev/null")
+os.system("umount -f "+ devNode +"* >& /dev/null")
 
 if(not os.path.exists(myPxebootFlag)):
-  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.del."+ cType)
-  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".mkextended")
-  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".part")
+  print("finding the ingredients needed to cook a universe...")
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.del."+ cType +" >& /dev/null")
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".mkextended >& /dev/null")
+  os.system("fdisk "+ devNode +" < /mnt/cloneMaster/config/fdisk/fdisk.init."+ cType +".part >& /dev/null")
   os.system("touch "+ myPxebootFlag)
   os.system("cp -v "+ myPxebootDefault +" "+ myPxebootFile)
-  os.system("sed -i 's/default harddisk/default nfslove_new/g' "+ myPxebootFile)
-  os.system("cd /;umount -fr /mnt/gentoo;umount -fr /mnt/pxeboot/")
+  os.system("sed -i 's/default harddisk/default nfslove_new/g' "+ myPxebootFile +" >& /dev/null")
+  os.system("cd /;umount -fr /mnt/gentoo;umount -fr /mnt/pxeboot/ >& /dev/null")
   os.system("reboot -f")
 else:
-  os.system("/mnt/cloneMaster/init.mkfs."+ cType +" "+ devNode)
-  os.system("/mnt/cloneMaster/init.mount."+ cType +" "+ devNode)
-  os.system("rsync -avHAX /mnt/gentoo/ /mnt/realroot/ --delete --exclude=root/livecd  --compress --rsh=rsh")
-  os.system("mkdir -pv /mnt/realroot/crap/cache/fscache/")
+  print("mixing the ingredients...")
+  os.system("/mnt/cloneMaster/init.mkfs."+ cType +" "+ devNode +" >& /dev/null")
+  os.system("/mnt/cloneMaster/init.mount."+ cType +" "+ devNode +" >& /dev/null")
+  
+  print("bombarding the ingredients with hydrogen atoms...")
+  os.system("rsync -aHAX /mnt/gentoo/ /mnt/realroot/ --delete --exclude=root/livecd >& /dev/null")
+  
+  
+  print("initiating a fusion reaction")
+  os.system("mkdir -pv /mnt/realroot/crap/cache/fscache/ >& /dev/null")
 #	os.system("mount /dev/"+ devNode +"4 /mnt/realroot/BACKUP")
-  os.system("mkdir -m 0777 -p /mnt/realroot/crap/cache/fscache/")
+  os.system("mkdir -m 0777 -p /mnt/realroot/crap/cache/fscache/ >& /dev/null")
   os.system("cd /")
   os.system("rm -f "+ myPxebootFlag)
   os.system("rm -f "+ myPxebootFile)
@@ -77,7 +103,11 @@ else:
   os.system("mount -o bind /sys /mnt/realroot/sys")
 #	os.system("mount /dev"+ devNode +"5 /mnt/realroot/boot")
   os.system("echo \""+ grubInstall +"\" > /mnt/realroot/tmp/grub.disk")
-  os.system("chroot /mnt/realroot/ < /mnt/cloneMaster/config/chroot/chroot."+ cType)
+  
+  
+  
+  print("served chilled  with toppings of dark matter . enjoy ur meal!...")
+  os.system("chroot /mnt/realroot/ < /mnt/cloneMaster/config/chroot/chroot."+ cType +" >& /dev/null")
   os.system("cd /; cat /proc/mounts | grep -i realroot | gawk '{print $2}' | sort -ru | xargs umount -f ")
   os.system("reboot -f")
 
